@@ -4,11 +4,12 @@ import Search from "../assets/search.svg";
 import Library from "../assets/Library.svg";
 import Create from "../assets/create.svg";
 import Liked from "../assets/Liked Songs.svg";
+import { NavLink } from "react-router-dom";
 
 const LeftSide = () => {
   
   return (
-    <div className="bg-black min-h-[100vh] w-[17%] pt-[42px] px-[35px]">
+    <div className="bg-black min-h-[100vh] w-[17%] pt-[42px] px-[10px]">
       <div className="menu flex flex-col gap-4">
         <div className="home flex gap-4 items-center cursor-pointer">
           <img src={Home} alt="Home" />
@@ -30,7 +31,9 @@ const LeftSide = () => {
         </div>
         <div className="home flex gap-4 items-center cursor-pointer">
           <img src={Liked} alt="Libreary" />
+          <NavLink to='/likes'>
           <h2 className="text-slate-400 hover:text-white text-lg">Liked Songs</h2>
+          </NavLink>
         </div>
       </div>
       <hr className="mt-6 opacity-20 mb-8" />

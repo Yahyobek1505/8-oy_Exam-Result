@@ -9,7 +9,7 @@ import TopFeatured from "../components/TopFeatured";
 import UniqualYours from "../components/UniqualYours";
 const Home = () => {
   return (
-    <div className="home-container w-[66%] bg-[#121212]">
+    <div className="home-container w-[66%] bg-[#121212] relative">
      <div className="linerDiv">
      <div className="top-home w-[100%] pt-4">
       <div className="div mx-auto flex gap-2 w-[94%] ">

@@ -1,12 +1,18 @@
-import React from "react";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React from 'react';
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
 
-const MusicPlayer = () => {
-  const {id} = useParams();
-  console.log(id);
-  useEffect(() => {}, []);
-  return <div></div>;
+const MusicPlayer = ({ src }) => {
+  return (
+    <div className="player w-full bottom-0 sticky">
+      <AudioPlayer
+        autoPlay
+        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+        showSkipControls={true}
+        showJumpControls={true}
+      />
+    </div>
+  );
 };
 
 export default MusicPlayer;
