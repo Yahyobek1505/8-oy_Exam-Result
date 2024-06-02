@@ -60,7 +60,11 @@ const Musics = () => {
         <div className="imgInfo w-[94%] mx-auto py-5 flex items-center gap-4">
           <div>
             {topMix.images && topMix.images.length > 0 && (
-              <img className="rounded-lg h-[200px] object-cover" src={topMix.images[0].url} alt="Playlist Cover" />
+              <img
+                className="rounded-lg h-[200px] object-cover"
+                src={topMix.images[0].url}
+                alt="Playlist Cover"
+              />
             )}
           </div>
           <div className="infoName">
@@ -128,31 +132,44 @@ const Musics = () => {
                 <img src={Union} alt="" />
               </div>
             </div>
-             {track.length > 0 &&
-  track.slice(0, 50).map((el, index) => {
-    return (
-      <div key={index} className="table-data max-w-[94%] px-4 py-2 rounded-md mx-auto flex items-center justify-between gap-10 hover:bg-slate-800 mt-4 bg-gray-900">
-<div className="img-name flex items-center gap-4">
-  <p>{index+1}</p>
-  <img className="rounded-md" src={el.track.album.images[2].url} alt="" />
-  <div className="flex flex-col">
-    <h3 className="text-white w-[200px] font-semibold">{el.track.name}</h3>
-    <h4 className="text-white opacity-30 text-sm">{el.track.artists[0].name}</h4>
-  </div>
-</div>
-<div className="album">
-  <h3 className="text-white opacity-30">{el.track.name}</h3>
-</div>
-<div className="album">
-  <h3></h3>
-</div>
-<div className="flex gap-4 ">
-<CiHeart className="text-white text-xl cursor-pointer" />
-<p className="text-white font-semibold">{Math.floor(el.track.duration_ms / 60 /1000 )}:{Math.floor(el.track.duration_ms / 60 /100)}</p>
-</div>
-</div>
-    );
-  })}
+            {track.length > 0 &&
+              track.slice(0, 50).map((el, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="table-data cursor-pointer max-w-[94%] px-4 py-2 rounded-md mx-auto flex items-center justify-between gap-10 hover:bg-slate-800 mt-4 bg-gray-900">
+                    <div className="img-name flex items-center gap-4">
+                      <p className="text-white">{index + 1}</p>
+                      <img
+                        className="rounded-md"
+                        src={el.track.album.images[2].url}
+                        alt=""
+                      />
+                      <div className="flex flex-col">
+                        <h3 className="text-white w-[200px] font-semibold">
+                          {el.track.name}
+                        </h3>
+                        <h4 className="text-white opacity-30 text-sm">
+                          {el.track.artists[0].name}
+                        </h4>
+                      </div>
+                    </div>
+                    <div className="album">
+                      <h3 className="text-white opacity-30">{el.track.name}</h3>
+                    </div>
+                    <div className="album">
+                      <h3></h3>
+                    </div>
+                    <div className="flex gap-4 ">
+                      <CiHeart  className="text-white text-xl cursor-pointer" />
+                      <p className="text-white font-semibold">
+                        {Math.floor(el.track.duration_ms / 60 / 1000)}:
+                        {Math.floor(el.track.duration_ms / 60 / 100)}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
           </div>
         </div>
       </div>
@@ -161,6 +178,3 @@ const Musics = () => {
 };
 
 export default Musics;
-
-
-

@@ -10,7 +10,10 @@ body {
   background: linear-gradient(180deg, rgba(51,51,159,1) 0%, rgba(18,18,18,1) 100%);
 }
 .infoMusic{
-  background: linear-gradient(180deg, rgba(191,212,36,1) 0%, rgb(0, 0, 0) 8%)
+  background: linear-gradient(171deg, rgb(178, 196, 44) 0%, rgb(42, 43, 3, 1) 10%);
+}
+.likedDiv{
+  background: linear-gradient(171deg, rgba(96,78,193,1) 0%, rgba(25,23,50,1) 10%);
 }
 .rhap_container {
   background: #181818;
