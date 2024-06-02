@@ -10,46 +10,48 @@ import Ellips from "../assets/Ellipse.png";
 import Union from "../assets/Union.svg";
 import LikedPage from "../assets/LikedPage.svg";
 
-import { useParams } from "react-router-dom";
 import { getToken } from "../components/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { create } from "../redux/authSlice";
 import { useState } from "react";
 
 const Musics = () => {
-  const { id } = useParams();
   const [played, setPlayed] = useState(false);
   const [topMix, setTopMix] = useState([]);
   const [track, setTraack] = useState([]);
   const dispatcn = useDispatch();
   const token = useSelector((state) => state.auth.token);
-  useEffect(() => {
-    if (token) {
-      fetch(`${import.meta.env.VITE_API_TOP_MIX}browse/featured-playlists`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setTopMix(data);
-          setTraack(data.tracks.items);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      getToken()
-        .then((res) => {
-          dispatcn(create(res));
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (token) {
+  //     fetch(`${import.meta.env.VITE_API_TOP_MIX}browse/featured-playlists`, {
+  //       method: "GET",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         console.log(data);
+  //         setTopMix(data);
+  //         setTraack(data.tracks.items);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   } else {
+  //     getToken()
+  //       .then((res) => {
+  //         dispatcn(create(res));
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   }
+  // }, [token]);
+useEffect(() =>{
+  const likeditem = localStorage.getItem("likedTracks");
+  console.log(likeditem);
+}, [])
   return (
     <div className="w-full bg-[#121212]">
       <div className="top-home w-full py-4 bg-[#604EC1]">

@@ -1,26 +1,29 @@
+
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { IoPlaySharp } from "react-icons/io5";
 import { IoPause } from "react-icons/io5";
 import { GrInstallOption } from "react-icons/gr";
 import { IoSearch } from "react-icons/io5";
-import { CiHeart } from "react-icons/ci";
-import { useEffect } from "react";
+import { IoIosHeart } from "react-icons/io";
 import Back from "../assets/Back.png";
 import Next from "../assets/Next.png";
 import Ellips from "../assets/Ellipse.png";
 import Union from "../assets/Union.svg";
-import { useParams } from "react-router-dom";
 import { getToken } from "../components/utils";
-import { useDispatch, useSelector } from "react-redux";
 import { create } from "../redux/authSlice";
-import { useState } from "react";
 
 const Musics = () => {
   const { id } = useParams();
   const [played, setPlayed] = useState(false);
+  const [liked, setLiked] = useState(false);
   const [topMix, setTopMix] = useState([]);
-  const [track, setTraack] = useState([]);
-  const dispatcn = useDispatch();
+  const [tracks, setTracks] = useState([]);
+  const [likedTracks, setLikedTracks] = useState({});
+  const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
+
   useEffect(() => {
     if (token) {
       fetch(`${import.meta.env.VITE_API_TOP_MIX}playlists/${id}`, {
@@ -31,9 +34,8 @@ const Musics = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           setTopMix(data);
-          setTraack(data.tracks.items);
+          setTracks(data.tracks.items);
         })
         .catch((error) => {
           console.log(error);
@@ -41,13 +43,29 @@ const Musics = () => {
     } else {
       getToken()
         .then((res) => {
-          dispatcn(create(res));
+          dispatch(create(res));
         })
         .catch((error) => {
           console.log(error);
         });
     }
   }, [token]);
+
+  const handleLiked = (trackId) => {
+    setLikedTracks((prevState) => ({
+      ...prevState,
+      [trackId]: !prevState[trackId],
+    }));
+  };
+function likedTop() {
+  setLiked(!liked);
+}
+function handlePlayIcon() {
+  setPlayed(!played)
+}
+function handlePlay() {
+  setPlayed(played)
+}
   return (
     <div className="w-full bg-[#121212]">
       <div className="top-home w-full py-4 bg-[#b4c721]">
@@ -56,7 +74,7 @@ const Musics = () => {
           <img src={Next} alt="" className="cursor-pointer" />
         </div>
       </div>
-      <div className="infoMusic w-full ">
+      <div className="infoMusic w-full">
         <div className="imgInfo w-[94%] mx-auto py-5 flex items-center gap-4">
           <div>
             {topMix.images && topMix.images.length > 0 && (
@@ -80,7 +98,7 @@ const Musics = () => {
             <div className="flex items-center gap-2 mt-4">
               <span className="text-white opacity-40">Made for </span>
               <span className="text-white font-semibold">davedirect3</span>
-              <img src={Ellips} alt="" />{" "}
+              <img src={Ellips} alt="" />
               <span className="text-white opacity-40 ">
                 34 songs, 2hr 01 min
               </span>
@@ -89,15 +107,18 @@ const Musics = () => {
         </div>
         <div className="musicAlbum bg-[#121212] w-full min-h-[100vh]">
           <div className="albumContainer w-[94%] mx-auto flex items-center pt-4 justify-between">
-            <div className="customOrder flex items-center   gap-6">
+            <div className="customOrder flex items-center gap-6">
               <div className="bg-[#65d36e] rounded-full text-center py-3 px-3">
                 {played ? (
-                  <IoPause />
+                  <IoPause className="text-2xl cursor-pointer" onClick={handlePlayIcon}/>
                 ) : (
-                  <IoPlaySharp className="text-2xl  cursor-pointer" />
+                  <IoPlaySharp onClick={handlePlayIcon} className="text-2xl cursor-pointer" />
                 )}
               </div>
-              <CiHeart className="text-white text-4xl cursor-pointer" />
+              <IoIosHeart
+              onClick={likedTop}
+                        className={`text-4xl cursor-pointer ${liked ? "text-green-500" : "text-white"}`}
+                      />
               <GrInstallOption className="text-white text-3xl cursor-pointer" />
               <div className="ellips flex items-center gap-1 cursor-pointer">
                 <img src={Ellips} alt="" />
@@ -126,16 +147,19 @@ const Musics = () => {
                 <p>ALBUM</p>
               </div>
               <div className="flex gap-2">
-                <p>DATA</p> <p>ADDED</p>
+                <p>DATA</p>
+                <p>ADDED</p>
               </div>
               <div>
                 <img src={Union} alt="" />
               </div>
             </div>
-            {track.length > 0 &&
-              track.slice(0, 50).map((el, index) => {
+            {tracks.length > 0 &&
+              tracks.slice(0, 50).map((el, index) => {
+                const isLiked = likedTracks[el.track.id] || false;
                 return (
                   <div
+                  onClick={handlePlay}
                     key={index}
                     className="table-data cursor-pointer max-w-[94%] px-4 py-2 rounded-md mx-auto flex items-center justify-between gap-10 hover:bg-slate-800 mt-4 bg-gray-900">
                     <div className="img-name flex items-center gap-4">
@@ -160,11 +184,14 @@ const Musics = () => {
                     <div className="album">
                       <h3></h3>
                     </div>
-                    <div className="flex gap-4 ">
-                      <CiHeart  className="text-white text-xl cursor-pointer" />
+                    <div className="flex gap-4 items-center">
+                      <IoIosHeart
+                        onClick={() => handleLiked(el.track.id)}
+                        className={`text-4xl cursor-pointer ${isLiked ? "text-green-500" : "text-white"}`}
+                      />
                       <p className="text-white font-semibold">
-                        {Math.floor(el.track.duration_ms / 60 / 1000)}:
-                        {Math.floor(el.track.duration_ms / 60 / 100)}
+                        {Math.floor(el.track.duration_ms / 60000)}:
+                        {Math.floor((el.track.duration_ms % 60000) / 1000).toString().padStart(2, '0')}
                       </p>
                     </div>
                   </div>
